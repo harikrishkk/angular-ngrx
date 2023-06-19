@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
@@ -8,6 +8,7 @@ import { booksReducer } from './store/books/books.reducer';
 import { collectionReducer } from './store/books/collection.reducer';
 import { BookCollectionComponent } from './components/book-collection/book-collection.component';
 import { HttpClientModule } from '@angular/common/http';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 @NgModule({
@@ -23,7 +24,11 @@ import { HttpClientModule } from '@angular/common/http';
     StoreModule.forRoot({
       books: booksReducer,
       collection: collectionReducer
-    }, {})
+    }, {}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
   ],
   providers: [],
   bootstrap: [AppComponent]
