@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { GoogleBooksService } from './components/book-list/books.service';
+import { BooksActions, BooksApiActions } from './store/books/books.actions';
+import { selectBookCollection, selectBooks } from './store/books/books.selectors';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +10,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-ngrx';
+  books$ = this.store.select(selectBooks);
+  bookCollection$ = this.store.select(selectBookCollection);
+
+  onAdd(bookId: string) {
+    this.store.dispatch(BooksActions.addBook({ bookId }));
+  }
+
+  onRemove(bookId: string) {
+    this.store.dispatch(BooksActions.removeBook({ bookId }));
+  }
+
+  constructor(private booksService: GoogleBooksService, private store: Store) { }
+
+  ngOnInit() {
+    this.booksService
+      .getBooks()
+      .subscribe((books) =>
+        this.store.dispatch(BooksApiActions.retrievedBookList({ books }))
+      );
+  }
 }
