@@ -2,7 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GoogleBooksService } from './components/book-list/books.service';
 import { BooksActions, BooksApiActions } from './store/books/books.actions';
-import { selectBookCollection, selectBooks } from './store/books/books.selectors';
+import { selectBooks } from './store/books/books.reducer';
+import { selectBookCollection } from './store/books/books.selectors';
+
 
 @Component({
   selector: 'app-root',

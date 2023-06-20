@@ -1,16 +1,42 @@
-import { createReducer, on } from '@ngrx/store';
+
+import { createFeature, createReducer, on } from '@ngrx/store';
 import { BooksActions } from './books.actions';
 
-export const initialState: ReadonlyArray<string> = [];
+interface State {
+  collections: string[];
+}
 
-export const collectionReducer = createReducer(
-  initialState,
-  on(BooksActions.removeBook, (state, { bookId }) =>
-    state.filter((id) => id !== bookId)
+const initialState: State = {
+  collections: [],
+};
+
+export const collectionFeature = createFeature({
+  name: 'collection',
+  reducer: createReducer(
+    initialState,
+    on(BooksActions.addBook, (state, { bookId }) => {
+      console.log(state, bookId)
+      if (state.collections.indexOf(bookId) > - 1) {
+        return {
+          ...state,
+          collections: [...state.collections]
+        }
+      }
+      return {
+        ...state,
+        collections: [...state.collections, bookId]
+      }
+    }),
+    on(BooksActions.removeBook, (state, { bookId }) => {
+      return {
+        ...state,
+        collections: state.collections.filter((id) => id !== bookId)
+      }
+    }),
   ),
-  on(BooksActions.addBook, (state, { bookId }) => {
-    if (state.indexOf(bookId) > -1) return state;
+});
 
-    return [...state, bookId];
-  })
-);
+export const {
+  reducer,
+  selectCollections
+} = collectionFeature;
