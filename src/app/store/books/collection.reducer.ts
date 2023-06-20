@@ -1,6 +1,8 @@
 
-import { createFeature, createReducer, on } from '@ngrx/store';
+import { createFeature, createReducer, createSelector, on } from '@ngrx/store';
 import { BooksActions } from './books.actions';
+import { selectBooks } from './books.reducer';
+
 
 interface State {
   collections: string[];
@@ -34,9 +36,19 @@ export const collectionFeature = createFeature({
       }
     }),
   ),
+  extraSelectors: ({ selectCollections }) => ({
+    selectBookCollection: createSelector(
+      selectBooks,
+      selectCollections,
+      (books, collections) => {
+        return collections.map((id) => books.find((book) => book.id === id)!);
+      }
+    )
+  })
 });
 
 export const {
   reducer,
-  selectCollections
+  selectCollections,
+  selectBookCollection
 } = collectionFeature;
