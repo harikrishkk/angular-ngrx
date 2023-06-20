@@ -9,3 +9,5 @@
 </ng-container>
 <app-book-collection class="book-collection" [books]="(bookCollection$ | async)!" (remove)="onRemove($event)">
 </app-book-collection>
+
+<router-outlet></router-outlet>

@@ -11,6 +11,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import * as bookEffects from './store/books/books.effects';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { HomePageComponent } from './pages/home-page/home-page.component';
+import { BookPagesComponent } from './pages/book-pages/book-pages.component';
+import { AppRoutingModule } from './app-routing.module';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -29,20 +33,25 @@ export const metaReducers: MetaReducer<any>[] = [debug];
     AppComponent,
     CounterComponent,
     BookListComponent,
-    BookCollectionComponent
+    BookCollectionComponent,
+    HomePageComponent,
+    BookPagesComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     StoreModule.forRoot({
       books: booksReducer,
-      collection: collectionReducer
+      collection: collectionReducer,
+      router: routerReducer
     }, { metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot(bookEffects)
+    EffectsModule.forRoot(bookEffects),
+    StoreRouterConnectingModule.forRoot(),
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
