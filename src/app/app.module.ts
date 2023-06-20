@@ -16,6 +16,8 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BookPagesComponent } from './pages/book-pages/book-pages.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { UsersEffects } from './store/users/users.effects';
+import { userReducer } from './store/users/users.reducer';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -45,13 +47,14 @@ export const metaReducers: MetaReducer<any>[] = [debug];
     StoreModule.forRoot({
       books: booksReducer,
       collection: collectionReducer,
-      router: routerReducer
+      router: routerReducer,
+      users: userReducer
     }, { metaReducers }),
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot(bookEffects),
+    EffectsModule.forRoot(UsersEffects, bookEffects),
     StoreRouterConnectingModule.forRoot(),
     AppRoutingModule
   ],

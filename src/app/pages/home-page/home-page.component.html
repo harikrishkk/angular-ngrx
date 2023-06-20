@@ -1,1 +1,9 @@
 <p>home-page works!</p>
+
+<!-- <pre> {{ users$ | async | json }} </pre> -->
+
+<ul *ngIf="(users$ | async) as users">
+  <li *ngFor="let user of users">
+    {{ user.first_name }}
+  </li>
+</ul>
