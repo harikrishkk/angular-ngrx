@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { PhotoService } from 'src/app/components/photo.service';
 import { loadAllUsersInit } from 'src/app/store/users/user.actions';
 import { selectAllUsers } from 'src/app/store/users/users.selectors';
 
@@ -10,8 +11,10 @@ import { selectAllUsers } from 'src/app/store/users/users.selectors';
 })
 export class HomePageComponent {
   users$ = this.store.select(selectAllUsers);
-  constructor(private store: Store) {
+  photos$ = this.photoService.entities$;
 
+  constructor(private store: Store, private photoService: PhotoService) {
+    this.photoService.getAll();
   }
 
   ngOnInit() {

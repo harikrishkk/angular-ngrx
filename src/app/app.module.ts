@@ -18,6 +18,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { UsersEffects } from './store/users/users.effects';
 import { userReducer } from './store/users/users.reducer';
+import { DefaultDataServiceConfig, EntityDataModule } from '@ngrx/data';
+import { entityConfig } from './entity-metadata';
+import { PhotoService } from './components/photo.service';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -30,6 +33,10 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
 }
 
 export const metaReducers: MetaReducer<any>[] = [debug];
+
+const defaultDataServiceConfig: DefaultDataServiceConfig = {
+  root: 'https://jsonplaceholder.typicode.com',
+}
 
 @NgModule({
   declarations: [
@@ -56,9 +63,16 @@ export const metaReducers: MetaReducer<any>[] = [debug];
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     EffectsModule.forRoot(UsersEffects, bookEffects),
     StoreRouterConnectingModule.forRoot(),
-    AppRoutingModule
+    AppRoutingModule,
+    EntityDataModule.forRoot(entityConfig)
   ],
-  providers: [],
+  providers: [
+    {
+      provide: DefaultDataServiceConfig,
+      useValue: defaultDataServiceConfig
+    },
+    PhotoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
