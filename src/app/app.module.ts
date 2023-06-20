@@ -10,7 +10,7 @@ import { BookCollectionComponent } from './components/book-collection/book-colle
 import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { BookEffects } from './store/books/books.effects';
+import * as bookEffects from './store/books/books.effects';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -42,7 +42,7 @@ export const metaReducers: MetaReducer<any>[] = [debug];
       maxAge: 25
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    EffectsModule.forRoot([BookEffects])
+    EffectsModule.forRoot(bookEffects)
   ],
   providers: [],
   bootstrap: [AppComponent]
