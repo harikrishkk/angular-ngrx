@@ -17,9 +17,14 @@ export const booksFeature = createFeature({
   name: 'books',
   reducer: createReducer(
     initialState,
+    on(BooksApiActions.loadAllBooks, (state, action) => ({
+      ...state,
+      loading: true
+    })),
     on(BooksApiActions.retrievedBookList, (state, action) => ({
       ...state,
-      books: action.books
+      books: action.books,
+      loading: false
     }))
   ),
 });
@@ -27,5 +32,6 @@ export const booksFeature = createFeature({
 export const {
   reducer,
   selectBooksState,
-  selectBooks
+  selectBooks,
+  selectLoading
 } = booksFeature;

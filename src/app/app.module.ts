@@ -9,6 +9,8 @@ import { reducer as collectionReducer } from './store/books/collection.reducer';
 import { BookCollectionComponent } from './components/book-collection/book-collection.component';
 import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { BookEffects } from './store/books/books.effects';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -39,7 +41,8 @@ export const metaReducers: MetaReducer<any>[] = [debug];
     StoreDevtoolsModule.instrument({
       maxAge: 25
     }),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    EffectsModule.forRoot([BookEffects])
   ],
   providers: [],
   bootstrap: [AppComponent]
