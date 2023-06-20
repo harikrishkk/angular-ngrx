@@ -15,6 +15,7 @@ import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { BookPagesComponent } from './pages/book-pages/book-pages.component';
 import { AppRoutingModule } from './app-routing.module';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 // Higher order function
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -35,7 +36,8 @@ export const metaReducers: MetaReducer<any>[] = [debug];
     BookListComponent,
     BookCollectionComponent,
     HomePageComponent,
-    BookPagesComponent
+    BookPagesComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
